@@ -10,6 +10,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,6 +29,20 @@ public class GlobalExceptionHandler {
                                         .map(fieldError -> new FieldErrorDto(fieldError.getField(), fieldError.getDefaultMessage()))
                                         .toList()
                         )
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorDto> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity.badRequest().body(
+                ErrorDto.builder()
+                        .message(ErrorMessages.VALIDATION_ERROR)
+                        .status(HttpStatus.BAD_REQUEST.name())
+                        .errors(List.of(
+                                new FieldErrorDto(ex.getName(), ErrorMessages.INVALID_UUID)
+                        ))
                         .build()
         );
     }

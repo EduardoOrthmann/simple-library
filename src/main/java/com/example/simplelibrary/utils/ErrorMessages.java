@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 public class ErrorMessages {
     // Validation
     public final String VALIDATION_ERROR = "Erro de validação";
+    public final String INVALID_UUID = "UUID inválido";
 
     // Author
     public final String AUTHOR_NOT_FOUND = "Autor não encontrado";
