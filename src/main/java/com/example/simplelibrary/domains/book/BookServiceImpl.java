@@ -10,6 +10,8 @@ import com.example.simplelibrary.exceptions.PublicationYearTooNew;
 import com.example.simplelibrary.utils.ErrorMessages;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +29,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponseDto> findAll() {
         return mapper.toResponseList(bookRepository.findAll());
+    }
+
+    @Override
+    public Page<BookResponseDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(mapper::toResponse);
     }
 
     @Override
@@ -91,5 +98,19 @@ public class BookServiceImpl implements BookService {
         }
 
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public BookResponseDto findByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn)
+                .map(mapper::toResponse)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND));
+    }
+
+    @Override
+    public BookResponseDto findByTitle(String title) {
+        return bookRepository.findByTitle(title)
+                .map(mapper::toResponse)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND));
     }
 }
