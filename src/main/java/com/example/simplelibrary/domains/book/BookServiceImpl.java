@@ -45,11 +45,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto save(BookRequestDto request) {
-        if (authorService.existsById(request.getAuthor())) {
+        if (!authorService.existsById(request.getAuthor())) {
             throw new EntityNotFoundException(ErrorMessages.AUTHOR_NOT_FOUND);
         }
 
-        if (publisherService.existsById(request.getPublisher())) {
+        if (!publisherService.existsById(request.getPublisher())) {
             throw new EntityNotFoundException(ErrorMessages.PUBLISHER_NOT_FOUND);
         }
 
@@ -70,11 +70,11 @@ public class BookServiceImpl implements BookService {
     public BookResponseDto update(UUID id, BookRequestDto request) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND));
 
-        if (authorService.existsById(request.getAuthor())) {
+        if (!authorService.existsById(request.getAuthor())) {
             throw new EntityNotFoundException(ErrorMessages.AUTHOR_NOT_FOUND);
         }
 
-        if (publisherService.existsById(request.getPublisher())) {
+        if (!publisherService.existsById(request.getPublisher())) {
             throw new EntityNotFoundException(ErrorMessages.PUBLISHER_NOT_FOUND);
         }
 

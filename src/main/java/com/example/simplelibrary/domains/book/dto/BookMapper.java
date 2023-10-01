@@ -19,7 +19,7 @@ public class BookMapper implements Mapper<Book, BookRequestDto, BookResponseDto>
                 .id(book.getId())
                 .isbn(book.getIsbn())
                 .title(book.getTitle())
-                .genre(book.getGenre().name())
+                .genre(book.getGenre())
                 .publicationYear(book.getPublicationYear())
                 .quantity(book.getQuantity())
                 .authorId(book.getAuthor().getId())

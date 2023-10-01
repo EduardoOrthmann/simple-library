@@ -1,6 +1,8 @@
 package com.example.simplelibrary.domains.book.dto;
 
+import com.example.simplelibrary.domains.book.Genre;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.util.UUID;
@@ -12,9 +14,12 @@ import java.util.UUID;
 @Builder
 public class BookResponseDto {
     private UUID id;
+
+    @JsonSerialize(using = IsbnSerializer.class)
     private String isbn;
+
     private String title;
-    private String genre;
+    private Genre genre;
 
     @JsonProperty("publication_year")
     private Integer publicationYear;
