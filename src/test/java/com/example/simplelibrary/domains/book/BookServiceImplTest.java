@@ -183,36 +183,21 @@ class BookServiceImplTest {
         }
 
         @Test
-        @DisplayName("findByTitle(String) -> should return BookResponseDto by title")
-        void findByTitle_shouldReturnBook() {
+        @DisplayName("findByTitle(String) -> should return list of BookResponseDto by title")
+        void findByTitle_shouldReturnListOfBook() {
             // Arrange
-            when(bookRepository.findByTitle(book.getTitle())).thenReturn(Optional.of(book));
-            when(mapper.toResponse(book)).thenReturn(response);
+            when(bookRepository.findByTitleContainingIgnoreCase(book.getTitle())).thenReturn(List.of(book));
+            when(mapper.toResponseList(List.of(book))).thenReturn(List.of(response));
 
             // Act
-            BookResponseDto result = bookService.findByTitle(book.getTitle());
+            List<BookResponseDto> result = bookService.findByTitle(book.getTitle());
 
             // Assert
             assertNotNull(result);
-            assertEquals(response, result);
+            assertEquals(1, result.size());
 
-            verify(bookRepository, times(1)).findByTitle(book.getTitle());
-            verify(mapper, times(1)).toResponse(book);
-        }
-
-        @Test
-        @DisplayName("findByTitle(String) -> should throw EntityNotFoundException when book not found")
-        void findByTitle_shouldThrowEntityNotFoundException_whenBookNotFound() {
-            // Arrange
-            when(bookRepository.findByTitle(book.getTitle())).thenReturn(Optional.empty());
-
-            // Act
-            Runnable result = () -> bookService.findByTitle(book.getTitle());
-
-            // Assert
-            assertThrows(EntityNotFoundException.class, result::run);
-
-            verify(bookRepository, times(1)).findByTitle(book.getTitle());
+            verify(bookRepository, times(1)).findByTitleContainingIgnoreCase(book.getTitle());
+            verify(mapper, times(1)).toResponseList(List.of(book));
         }
     }
 

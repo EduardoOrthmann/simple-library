@@ -263,6 +263,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -304,7 +314,7 @@
             }
           },
           "400": {
-            "description": "Invalid request body",
+            "description": "Invalid request body/Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -354,6 +364,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       }
@@ -388,6 +408,16 @@
           },
           "404": {
             "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -436,7 +466,7 @@
             }
           },
           "400": {
-            "description": "Invalid request body",
+            "description": "Invalid request body/Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -486,6 +516,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       }
@@ -526,11 +566,21 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/book/title/{title}": {
+    "/book/title": {
       "get": {
         "tags": [
           "book"
@@ -539,8 +589,8 @@
         "parameters": [
           {
             "name": "title",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -557,8 +607,8 @@
               }
             }
           },
-          "404": {
-            "description": "Entity not found",
+          "400": {
+            "description": "Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -607,6 +657,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -648,7 +708,7 @@
             }
           },
           "400": {
-            "description": "Invalid request body",
+            "description": "Invalid request body/Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -691,6 +751,16 @@
           },
           "404": {
             "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {
@@ -742,6 +812,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       }
@@ -779,6 +859,16 @@
           },
           "404": {
             "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid path parameter",
             "content": {
               "application/json": {
                 "schema": {

@@ -108,9 +108,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto findByTitle(String title) {
-        return bookRepository.findByTitle(title)
-                .map(mapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND));
+    public List<BookResponseDto> findByTitle(String title) {
+        return mapper.toResponseList(bookRepository.findByTitleContainingIgnoreCase(title));
     }
 }

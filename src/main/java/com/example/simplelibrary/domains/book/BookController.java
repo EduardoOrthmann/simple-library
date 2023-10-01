@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,8 +40,8 @@ public class BookController {
         return ResponseEntity.ok(bookService.findByIsbn(isbn));
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<BookResponseDto> findByTitle(@PathVariable String title) {
+    @GetMapping("/title")
+    public ResponseEntity<List<BookResponseDto>> findByTitle(@RequestParam String title) {
         return ResponseEntity.ok(bookService.findByTitle(title));
     }
 
