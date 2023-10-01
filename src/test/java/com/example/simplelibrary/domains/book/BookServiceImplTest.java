@@ -47,8 +47,8 @@ class BookServiceImplTest {
     private BookMapper mapper;
 
     private Book book;
-    private BookResponseDto responseSample;
-    private BookRequestDto requestSample;
+    private BookResponseDto response;
+    private BookRequestDto request;
 
     @BeforeEach
     void setUp() {
@@ -63,7 +63,7 @@ class BookServiceImplTest {
                 .publisher(new Publisher())
                 .build();
 
-        responseSample = BookResponseDto.builder()
+        response = BookResponseDto.builder()
                 .id(book.getId())
                 .isbn(book.getIsbn())
                 .title(book.getTitle())
@@ -78,11 +78,11 @@ class BookServiceImplTest {
     @Nested
     class QueryMethods {
         @Test
-        @DisplayName("findAll() -> should return list of books")
+        @DisplayName("findAll() -> should return list of BookResponseDto")
         void findAll_shouldReturnListOfBooks() {
             // Arrange
             when(bookRepository.findAll()).thenReturn(List.of(book));
-            when(mapper.toResponseList(List.of(book))).thenReturn(List.of(responseSample));
+            when(mapper.toResponseList(List.of(book))).thenReturn(List.of(response));
 
             // Act
             List<BookResponseDto> result = bookService.findAll();
@@ -90,14 +90,14 @@ class BookServiceImplTest {
             // Assert
             assertNotNull(result);
             assertEquals(1, result.size());
-            assertEquals(responseSample, result.get(0));
+            assertEquals(response, result.get(0));
 
             verify(bookRepository, times(1)).findAll();
             verify(mapper, times(1)).toResponseList(List.of(book));
         }
 
         @Test
-        @DisplayName("findAll(Pageable) -> should return page of books")
+        @DisplayName("findAll(Pageable) -> should return page of BookResponseDto")
         void findAllPageable_shouldReturnPageOfBooks() {
             // Arrange
             Pageable pageable = Pageable.unpaged();
@@ -116,18 +116,18 @@ class BookServiceImplTest {
         }
 
         @Test
-        @DisplayName("findById(UUID) -> should return book by id")
+        @DisplayName("findById(UUID) -> should return BookResponseDto by id")
         void findById_shouldReturnBook() {
             // Arrange
             when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-            when(mapper.toResponse(book)).thenReturn(responseSample);
+            when(mapper.toResponse(book)).thenReturn(response);
 
             // Act
             BookResponseDto result = bookService.findById(book.getId());
 
             // Assert
             assertNotNull(result);
-            assertEquals(responseSample, result);
+            assertEquals(response, result);
 
             verify(bookRepository, times(1)).findById(book.getId());
             verify(mapper, times(1)).toResponse(book);
@@ -146,21 +146,22 @@ class BookServiceImplTest {
             assertThrows(EntityNotFoundException.class, result::run);
 
             verify(bookRepository, times(1)).findById(book.getId());
+            verify(mapper, times(0)).toResponse(book);
         }
 
         @Test
-        @DisplayName("findByIsbn(String) -> should return book by isbn")
+        @DisplayName("findByIsbn(String) -> should return BookResponseDto by isbn")
         void findByIsbn_shouldReturnBook() {
             // Arrange
             when(bookRepository.findByIsbn(book.getIsbn())).thenReturn(Optional.of(book));
-            when(mapper.toResponse(book)).thenReturn(responseSample);
+            when(mapper.toResponse(book)).thenReturn(response);
 
             // Act
             BookResponseDto result = bookService.findByIsbn(book.getIsbn());
 
             // Assert
             assertNotNull(result);
-            assertEquals(responseSample, result);
+            assertEquals(response, result);
 
             verify(bookRepository, times(1)).findByIsbn(book.getIsbn());
             verify(mapper, times(1)).toResponse(book);
@@ -182,18 +183,18 @@ class BookServiceImplTest {
         }
 
         @Test
-        @DisplayName("findByTitle(String) -> should return book by title")
+        @DisplayName("findByTitle(String) -> should return BookResponseDto by title")
         void findByTitle_shouldReturnBook() {
             // Arrange
             when(bookRepository.findByTitle(book.getTitle())).thenReturn(Optional.of(book));
-            when(mapper.toResponse(book)).thenReturn(responseSample);
+            when(mapper.toResponse(book)).thenReturn(response);
 
             // Act
             BookResponseDto result = bookService.findByTitle(book.getTitle());
 
             // Assert
             assertNotNull(result);
-            assertEquals(responseSample, result);
+            assertEquals(response, result);
 
             verify(bookRepository, times(1)).findByTitle(book.getTitle());
             verify(mapper, times(1)).toResponse(book);
@@ -219,7 +220,7 @@ class BookServiceImplTest {
     class MutationMethods {
         @BeforeEach
         void setUp() {
-            requestSample = BookRequestDto.builder()
+            request = BookRequestDto.builder()
                     .isbn(book.getIsbn())
                     .title(book.getTitle())
                     .genre(book.getGenre())
@@ -231,27 +232,27 @@ class BookServiceImplTest {
         }
 
         @Test
-        @DisplayName("save(BookRequestDto) -> should return saved book")
+        @DisplayName("save(BookRequestDto) -> should return saved BookResponseDto")
         void save_shouldReturnSavedBook() {
             // Arrange
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(true);
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(true);
             when(bookRepository.existsByIsbn(book.getIsbn())).thenReturn(false);
-            when(mapper.toEntity(requestSample)).thenReturn(book);
+            when(mapper.toEntity(request)).thenReturn(book);
             when(bookRepository.save(book)).thenReturn(book);
-            when(mapper.toResponse(book)).thenReturn(responseSample);
+            when(mapper.toResponse(book)).thenReturn(response);
 
             // Act
-            BookResponseDto result = bookService.save(requestSample);
+            BookResponseDto result = bookService.save(request);
 
             // Assert
             assertNotNull(result);
-            assertEquals(responseSample, result);
+            assertEquals(response, result);
 
             verify(authorService, times(1)).existsById(book.getAuthor().getId());
             verify(publisherService, times(1)).existsById(book.getPublisher().getId());
             verify(bookRepository, times(1)).existsByIsbn(book.getIsbn());
-            verify(mapper, times(1)).toEntity(requestSample);
+            verify(mapper, times(1)).toEntity(request);
             verify(bookRepository, times(1)).save(book);
             verify(mapper, times(1)).toResponse(book);
         }
@@ -263,7 +264,7 @@ class BookServiceImplTest {
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(false);
 
             // Act
-            Runnable result = () -> bookService.save(requestSample);
+            Runnable result = () -> bookService.save(request);
 
             // Assert
             assertThrows(EntityNotFoundException.class, result::run);
@@ -279,7 +280,7 @@ class BookServiceImplTest {
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(false);
 
             // Act
-            Runnable result = () -> bookService.save(requestSample);
+            Runnable result = () -> bookService.save(request);
 
             // Assert
             assertThrows(EntityNotFoundException.class, result::run);
@@ -297,7 +298,7 @@ class BookServiceImplTest {
             when(bookRepository.existsByIsbn(book.getIsbn())).thenReturn(true);
 
             // Act
-            Runnable result = () -> bookService.save(requestSample);
+            Runnable result = () -> bookService.save(request);
 
             // Assert
             assertThrows(IsbnAlreadyExistsException.class, result::run);
@@ -314,10 +315,10 @@ class BookServiceImplTest {
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(true);
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(true);
             when(bookRepository.existsByIsbn(book.getIsbn())).thenReturn(false);
-            requestSample.setPublicationYear(LocalDate.now().getYear() + 1);
+            request.setPublicationYear(LocalDate.now().getYear() + 1);
 
             // Act
-            Runnable result = () -> bookService.save(requestSample);
+            Runnable result = () -> bookService.save(request);
 
             // Assert
             assertThrows(PublicationYearTooNew.class, result::run);
@@ -328,29 +329,29 @@ class BookServiceImplTest {
         }
 
         @Test
-        @DisplayName("update(UUID, BookRequestDto) -> should return updated book")
+        @DisplayName("update(UUID, BookRequestDto) -> should return updated BookResponseDto")
         void update_shouldReturnUpdatedBook() {
             // Arrange
             when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(true);
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(true);
             when(bookRepository.existsByIsbnAndIdNot(book.getIsbn(), book.getId())).thenReturn(false);
-            when(mapper.updateEntity(book, requestSample)).thenReturn(book);
+            when(mapper.updateEntity(book, request)).thenReturn(book);
             when(bookRepository.save(book)).thenReturn(book);
-            when(mapper.toResponse(book)).thenReturn(responseSample);
+            when(mapper.toResponse(book)).thenReturn(response);
 
             // Act
-            BookResponseDto result = bookService.update(book.getId(), requestSample);
+            BookResponseDto result = bookService.update(book.getId(), request);
 
             // Assert
             assertNotNull(result);
-            assertEquals(responseSample, result);
+            assertEquals(response, result);
 
             verify(bookRepository, times(1)).findById(book.getId());
             verify(authorService, times(1)).existsById(book.getAuthor().getId());
             verify(publisherService, times(1)).existsById(book.getPublisher().getId());
             verify(bookRepository, times(1)).existsByIsbnAndIdNot(book.getIsbn(), book.getId());
-            verify(mapper, times(1)).updateEntity(book, requestSample);
+            verify(mapper, times(1)).updateEntity(book, request);
             verify(bookRepository, times(1)).save(book);
             verify(mapper, times(1)).toResponse(book);
         }
@@ -362,7 +363,7 @@ class BookServiceImplTest {
             when(bookRepository.findById(book.getId())).thenReturn(Optional.empty());
 
             // Act
-            Runnable result = () -> bookService.update(book.getId(), requestSample);
+            Runnable result = () -> bookService.update(book.getId(), request);
 
             // Assert
             assertThrows(EntityNotFoundException.class, result::run);
@@ -378,7 +379,7 @@ class BookServiceImplTest {
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(false);
 
             // Act
-            Runnable result = () -> bookService.update(book.getId(), requestSample);
+            Runnable result = () -> bookService.update(book.getId(), request);
 
             // Assert
             assertThrows(EntityNotFoundException.class, result::run);
@@ -396,7 +397,7 @@ class BookServiceImplTest {
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(false);
 
             // Act
-            Runnable result = () -> bookService.update(book.getId(), requestSample);
+            Runnable result = () -> bookService.update(book.getId(), request);
 
             // Assert
             assertThrows(EntityNotFoundException.class, result::run);
@@ -416,7 +417,7 @@ class BookServiceImplTest {
             when(bookRepository.existsByIsbnAndIdNot(book.getIsbn(), book.getId())).thenReturn(true);
 
             // Act
-            Runnable result = () -> bookService.update(book.getId(), requestSample);
+            Runnable result = () -> bookService.update(book.getId(), request);
 
             // Assert
             assertThrows(IsbnAlreadyExistsException.class, result::run);
@@ -435,10 +436,10 @@ class BookServiceImplTest {
             when(authorService.existsById(book.getAuthor().getId())).thenReturn(true);
             when(publisherService.existsById(book.getPublisher().getId())).thenReturn(true);
             when(bookRepository.existsByIsbnAndIdNot(book.getIsbn(), book.getId())).thenReturn(false);
-            requestSample.setPublicationYear(LocalDate.now().getYear() + 1);
+            request.setPublicationYear(LocalDate.now().getYear() + 1);
 
             // Act
-            Runnable result = () -> bookService.update(book.getId(), requestSample);
+            Runnable result = () -> bookService.update(book.getId(), request);
 
             // Assert
             assertThrows(PublicationYearTooNew.class, result::run);

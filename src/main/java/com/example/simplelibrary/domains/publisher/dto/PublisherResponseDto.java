@@ -3,13 +3,15 @@ package com.example.simplelibrary.domains.publisher.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class PublisherResponseDto {
-    private String id;
+    private UUID id;
     private String name;
     private String address;
 

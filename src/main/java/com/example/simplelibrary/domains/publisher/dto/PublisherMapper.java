@@ -12,7 +12,7 @@ public class PublisherMapper implements Mapper<Publisher, PublisherRequestDto, P
     @Override
     public PublisherResponseDto toResponse(Publisher publisher) {
         return PublisherResponseDto.builder()
-                .id(publisher.getId().toString())
+                .id(publisher.getId())
                 .name(publisher.getName())
                 .address(publisher.getAddress())
                 .phoneNumber(publisher.getPhoneNumber())
