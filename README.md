@@ -18,6 +18,8 @@ This project was built for the course [+devs2blu](https://www.devs2blu.com.br/).
 
 You can use the API at [https://simple-library-production.up.railway.app/swagger-ui/index.html](https://simple-library-production.up.railway.app/swagger-ui/index.html).
 
+> **Note:** Do not forget to set the server URL in the swagger UI to https://simple-library-production.up.railway.app if needed.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development
@@ -92,7 +94,8 @@ Or run the tests using your IDE.
 
 ## Documentation
 
-The API documentation is available at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+The API documentation is available at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+or [https://simple-library-production.up.railway.app/swagger-ui/index.html](https://simple-library-production.up.railway.app/swagger-ui/index.html) if you are using the production server.
 
 ## Built With
 

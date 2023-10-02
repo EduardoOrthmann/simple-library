@@ -7,8 +7,12 @@
   },
   "servers": [
     {
+      "url": "https://simple-library-production.up.railway.app",
+      "description": "Production server"
+    },
+    {
       "url": "http://localhost:8080",
-      "description": "Generated server url"
+      "description": "Local server"
     }
   ],
   "paths": {
