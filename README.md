@@ -6,12 +6,17 @@ This project was built for the course [+devs2blu](https://www.devs2blu.com.br/).
 
 ## Table of Contents
 
+- [Usage](#usage)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
 - [Built With](#built-with)
+
+## Usage
+
+You can use the API at [https://simple-library-production.up.railway.app/swagger-ui/index.html](https://simple-library-production.up.railway.app/swagger-ui/index.html).
 
 ## Getting Started
 
