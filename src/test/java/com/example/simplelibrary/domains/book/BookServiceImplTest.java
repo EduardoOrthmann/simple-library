@@ -2,11 +2,13 @@ package com.example.simplelibrary.domains.book;
 
 import com.example.simplelibrary.domains.author.Author;
 import com.example.simplelibrary.domains.author.AuthorService;
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
 import com.example.simplelibrary.domains.book.dto.BookRequestDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
 import com.example.simplelibrary.domains.publisher.Publisher;
 import com.example.simplelibrary.domains.publisher.PublisherService;
+import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
 import com.example.simplelibrary.exceptions.IsbnAlreadyExistsException;
 import com.example.simplelibrary.exceptions.PublicationYearTooNew;
 import jakarta.persistence.EntityNotFoundException;
@@ -70,8 +72,16 @@ class BookServiceImplTest {
                 .genre(book.getGenre())
                 .publicationYear(book.getPublicationYear())
                 .quantity(book.getQuantity())
-                .authorId(book.getAuthor().getId())
-                .publisherId(book.getPublisher().getId())
+                .author(AuthorNameDto.builder()
+                        .id(book.getAuthor().getId())
+                        .name(book.getAuthor().getName())
+                        .build()
+                )
+                .publisher(PublisherNameDto.builder()
+                        .id(book.getPublisher().getId())
+                        .name(book.getPublisher().getName())
+                        .build()
+                )
                 .build();
     }
 
