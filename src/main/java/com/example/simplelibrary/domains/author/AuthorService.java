@@ -1,5 +1,6 @@
 package com.example.simplelibrary.domains.author;
 
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.author.dto.AuthorRequestDto;
 import com.example.simplelibrary.domains.author.dto.AuthorResponseDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
@@ -11,4 +12,6 @@ import java.util.UUID;
 public interface AuthorService extends Crud<AuthorRequestDto, AuthorResponseDto, UUID> {
     List<BookResponseDto> findBooksByAuthorId(UUID id);
     boolean existsById(UUID id);
+
+    List<AuthorNameDto> findAllNames();
 }

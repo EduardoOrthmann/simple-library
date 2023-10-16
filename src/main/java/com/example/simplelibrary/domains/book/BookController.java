@@ -2,6 +2,7 @@ package com.example.simplelibrary.domains.book;
 
 import com.example.simplelibrary.domains.book.dto.BookRequestDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
+import com.example.simplelibrary.domains.book.dto.GenreDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +20,13 @@ import java.util.UUID;
 public class BookController {
     private final BookService bookService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<BookResponseDto>> findAll() {
+        return ResponseEntity.ok(bookService.findAll());
+    }
+
     @GetMapping
-    public ResponseEntity<Page<BookResponseDto>> findAll(
+    public ResponseEntity<Page<BookResponseDto>> findAllPageable(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "title") String sortBy) {
@@ -43,6 +49,11 @@ public class BookController {
     @GetMapping("/title")
     public ResponseEntity<List<BookResponseDto>> findByTitle(@RequestParam String title) {
         return ResponseEntity.ok(bookService.findByTitle(title));
+    }
+
+    @GetMapping("/genres")
+    public ResponseEntity<List<GenreDto>> findAllGenres() {
+        return ResponseEntity.ok(bookService.findAllGenres());
     }
 
     @PostMapping

@@ -43,4 +43,17 @@ public class PublisherMapper implements Mapper<Publisher, PublisherRequestDto, P
 
         return publisher;
     }
+
+    public PublisherNameDto toName(Publisher publisher) {
+        return PublisherNameDto.builder()
+                .id(publisher.getId())
+                .name(publisher.getName())
+                .build();
+    }
+
+    public List<PublisherNameDto> toNameList(Collection<Publisher> list) {
+        return list.stream()
+                .map(this::toName)
+                .toList();
+    }
 }

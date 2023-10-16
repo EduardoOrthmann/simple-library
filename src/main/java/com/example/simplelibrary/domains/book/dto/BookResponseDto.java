@@ -1,6 +1,8 @@
 package com.example.simplelibrary.domains.book.dto;
 
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.book.Genre;
+import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -23,9 +25,7 @@ public class BookResponseDto {
 
     private Integer quantity;
 
-    @JsonProperty("author_id")
-    private UUID authorId;
+    private AuthorNameDto author;
 
-    @JsonProperty("publisher_id")
-    private UUID publisherId;
+    private PublisherNameDto publisher;
 }

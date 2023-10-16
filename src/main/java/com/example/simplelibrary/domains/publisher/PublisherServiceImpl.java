@@ -3,6 +3,7 @@ package com.example.simplelibrary.domains.publisher;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherMapper;
+import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherRequestDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherResponseDto;
 import com.example.simplelibrary.exceptions.PublisherNameAlreadyExists;
@@ -76,5 +77,10 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public boolean existsById(UUID id) {
         return publisherRepository.existsById(id);
+    }
+
+    @Override
+    public List<PublisherNameDto> findAllNames() {
+        return mapper.toNameList(publisherRepository.findAll());
     }
 }

@@ -43,4 +43,17 @@ public class AuthorMapper implements Mapper<Author, AuthorRequestDto, AuthorResp
 
         return author;
     }
+
+    public AuthorNameDto toNameDto(Author author) {
+        return AuthorNameDto.builder()
+                .id(author.getId())
+                .name(author.getName())
+                .build();
+    }
+
+    public List<AuthorNameDto> toNameList(Collection<Author> list) {
+        return list.stream()
+                .map(this::toNameDto)
+                .toList();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.simplelibrary.domains.publisher;
 
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
+import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherRequestDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherResponseDto;
 import jakarta.validation.Valid;
@@ -30,6 +31,11 @@ public class PublisherController {
     @GetMapping("/{id}/books")
     public ResponseEntity<List<BookResponseDto>> findBooksByPublisherId(@PathVariable UUID id) {
         return ResponseEntity.ok(publisherService.findBooksByPublisherId(id));
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<List<PublisherNameDto>> findAllNames() {
+        return ResponseEntity.ok(publisherService.findAllNames());
     }
 
     @PostMapping

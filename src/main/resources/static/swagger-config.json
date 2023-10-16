@@ -127,6 +127,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid path parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -162,6 +172,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/book/all": {
+      "get": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Get all books",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/book/genres": {
+      "get": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Get all genres",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GenreDto"
+                  }
                 }
               }
             }
@@ -223,6 +279,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/author/names": {
+      "get": {
+        "tags": [
+          "author"
+        ],
+        "summary": "Get all author names",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuthorNameDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/publisher/names": {
+      "get": {
+        "tags": [
+          "publisher"
+        ],
+        "summary": "Get all publisher names",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PublisherNameDto"
+                  }
                 }
               }
             }
@@ -1052,7 +1154,39 @@
             "type": "string"
           },
           "genre": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "SCIENCE_FICTION",
+              "SATIRE",
+              "DRAMA",
+              "ACTION_AND_ADVENTURE",
+              "ROMANCE",
+              "MYSTERY",
+              "HORROR",
+              "SELF_HELP",
+              "GUIDE",
+              "TRAVEL",
+              "CHILDREN",
+              "RELIGION_SPIRITUALITY_AND_NEW_AGES",
+              "SCIENCE",
+              "HISTORY",
+              "MATH",
+              "ANTHOLOGY",
+              "POETRY",
+              "ENCYCLOPEDIAS",
+              "DICTIONARIES",
+              "COMICS",
+              "ART",
+              "COOKBOOKS",
+              "DIARIES",
+              "JOURNALS",
+              "PRAYER_BOOKS",
+              "SERIES",
+              "TRILOGY",
+              "BIOGRAPHIES",
+              "AUTOBIOGRAPHIES",
+              "FANTASY"
+            ]
           },
           "quantity": {
             "type": "integer",
@@ -1065,13 +1199,54 @@
             "example": 2003,
             "description": "The year when the book was published"
           },
-          "author_id": {
-            "type": "string",
-            "format": "uuid"
+          "author": {
+            "$ref": "#/components/schemas/AuthorNameDto"
           },
-          "publisher_id": {
+          "publisher": {
+            "$ref": "#/components/schemas/PublisherNameDto"
+          }
+        }
+      },
+      "GenreDto": {
+        "type": "object",
+        "properties": {
+          "genre": {
             "type": "string",
-            "format": "uuid"
+            "enum": [
+              "SCIENCE_FICTION",
+              "SATIRE",
+              "DRAMA",
+              "ACTION_AND_ADVENTURE",
+              "ROMANCE",
+              "MYSTERY",
+              "HORROR",
+              "SELF_HELP",
+              "GUIDE",
+              "TRAVEL",
+              "CHILDREN",
+              "RELIGION_SPIRITUALITY_AND_NEW_AGES",
+              "SCIENCE",
+              "HISTORY",
+              "MATH",
+              "ANTHOLOGY",
+              "POETRY",
+              "ENCYCLOPEDIAS",
+              "DICTIONARIES",
+              "COMICS",
+              "ART",
+              "COOKBOOKS",
+              "DIARIES",
+              "JOURNALS",
+              "PRAYER_BOOKS",
+              "SERIES",
+              "TRILOGY",
+              "BIOGRAPHIES",
+              "AUTOBIOGRAPHIES",
+              "FANTASY"
+            ]
+          },
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -1203,6 +1378,34 @@
           },
           "sorted": {
             "type": "boolean"
+          }
+        }
+      },
+      "AuthorNameDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "J. K. Rowling",
+            "description": "The name of the author"
+          }
+        }
+      },
+      "PublisherNameDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "example": "Bloomsbury Publishing",
+            "description": "The name of the publisher"
           }
         }
       }

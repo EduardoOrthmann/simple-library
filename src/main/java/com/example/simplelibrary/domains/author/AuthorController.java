@@ -1,5 +1,6 @@
 package com.example.simplelibrary.domains.author;
 
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.author.dto.AuthorRequestDto;
 import com.example.simplelibrary.domains.author.dto.AuthorResponseDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
@@ -30,6 +31,11 @@ public class AuthorController {
     @GetMapping("/{id}/books")
     public ResponseEntity<List<BookResponseDto>> findBooksByAuthorId(@PathVariable UUID id) {
         return ResponseEntity.ok(authorService.findBooksByAuthorId(id));
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<List<AuthorNameDto>> findAllNames() {
+        return ResponseEntity.ok(authorService.findAllNames());
     }
 
     @PostMapping

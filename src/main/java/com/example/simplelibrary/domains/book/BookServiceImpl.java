@@ -4,6 +4,7 @@ import com.example.simplelibrary.domains.author.AuthorService;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
 import com.example.simplelibrary.domains.book.dto.BookRequestDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
+import com.example.simplelibrary.domains.book.dto.GenreDto;
 import com.example.simplelibrary.domains.publisher.PublisherService;
 import com.example.simplelibrary.exceptions.IsbnAlreadyExistsException;
 import com.example.simplelibrary.exceptions.PublicationYearTooNew;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -110,5 +112,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponseDto> findByTitle(String title) {
         return mapper.toResponseList(bookRepository.findByTitleContainingIgnoreCase(title));
+    }
+
+    @Override
+    public List<GenreDto> findAllGenres() {
+        return Arrays.stream(Genre.values()).map(genre -> GenreDto.builder()
+                .genre(genre)
+                .name(genre.getGenreName())
+                .build()
+        ).toList();
     }
 }

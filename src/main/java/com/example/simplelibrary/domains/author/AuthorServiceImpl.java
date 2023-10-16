@@ -1,6 +1,7 @@
 package com.example.simplelibrary.domains.author;
 
 import com.example.simplelibrary.domains.author.dto.AuthorMapper;
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.author.dto.AuthorRequestDto;
 import com.example.simplelibrary.domains.author.dto.AuthorResponseDto;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
@@ -67,5 +68,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public boolean existsById(UUID id) {
         return authorRepository.existsById(id);
+    }
+
+    @Override
+    public List<AuthorNameDto> findAllNames() {
+        return mapper.toNameList(authorRepository.findAll());
     }
 }
