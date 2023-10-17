@@ -78,4 +78,25 @@ class PublisherMapperTest {
         // Assert
         assertNotNull(result);
     }
+
+    @Test
+    @DisplayName("toName -> should map Publisher to PublisherNameDto")
+    void toName_shouldMapPublisherToPublisherNameDto() {
+        // Act
+        PublisherNameDto result = mapper.toName(publisher);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("toNameList -> should map list of Publisher to list of PublisherNameDto")
+    void toNameList_shouldMapListOfPublisherToListOfPublisherNameDto() {
+        // Act
+        List<PublisherNameDto> result = mapper.toNameList(List.of(publisher));
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
 }

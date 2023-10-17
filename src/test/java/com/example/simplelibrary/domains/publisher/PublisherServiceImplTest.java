@@ -3,6 +3,7 @@ package com.example.simplelibrary.domains.publisher;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherMapper;
+import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherRequestDto;
 import com.example.simplelibrary.domains.publisher.dto.PublisherResponseDto;
 import com.example.simplelibrary.exceptions.PublisherNameAlreadyExists;
@@ -177,6 +178,26 @@ class PublisherServiceImplTest {
 
             verify(publisherRepository, times(1)).findById(publisher.getId());
             verify(bookMapper, times(0)).toResponseList(publisher.getBooks());
+        }
+
+        @Test
+        @DisplayName("findAllNames() -> should return list of PublisherNameDto")
+        void findAllNames_shouldReturnListOfPublisherNames() {
+            // Arrange
+            when(publisherRepository.findAll()).thenReturn(List.of(publisher));
+            when(mapper.toNameList(List.of(publisher))).thenReturn(List.of(new PublisherNameDto(publisher.getId(), publisher.getName())));
+
+            // Act
+            List<PublisherNameDto> result = publisherService.findAllNames();
+
+            // Assert
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            assertEquals(publisher.getId(), result.get(0).getId());
+            assertEquals(publisher.getName(), result.get(0).getName());
+
+            verify(publisherRepository, times(1)).findAll();
+            verify(mapper, times(1)).toNameList(List.of(publisher));
         }
     }
 

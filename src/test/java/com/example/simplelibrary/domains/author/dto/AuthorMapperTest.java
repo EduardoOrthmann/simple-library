@@ -79,4 +79,25 @@ class AuthorMapperTest {
         // Assert
         assertNotNull(result);
     }
+
+    @Test
+    @DisplayName("toNameDto -> should map Author to AuthorNameDto")
+    void toNameDto_shouldMapAuthorToAuthorNameDto() {
+        // Act
+        AuthorNameDto result = mapper.toNameDto(author);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("toNameList -> should map list of Author to list of AuthorNameDto")
+    void toNameList_shouldMapListOfAuthorToListOfAuthorNameDto() {
+        // Act
+        List<AuthorNameDto> result = mapper.toNameList(List.of(author));
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
 }

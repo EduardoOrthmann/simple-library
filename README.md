@@ -92,6 +92,9 @@ To run the tests, run the following command:
 
 Or run the tests using your IDE.
 
+> **Note:** For non IntelliJ IDEA users, you will need to go to the `target/site/jacoco/index.html` file to see the coverage report
+(do not forget to run mvn install before).
+
 ## Documentation
 
 The API documentation is available at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)

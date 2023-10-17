@@ -1,6 +1,7 @@
 package com.example.simplelibrary.domains.author;
 
 import com.example.simplelibrary.domains.author.dto.AuthorMapper;
+import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.author.dto.AuthorRequestDto;
 import com.example.simplelibrary.domains.author.dto.AuthorResponseDto;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
@@ -177,6 +178,26 @@ class AuthorServiceImplTest {
 
             verify(authorRepository, times(1)).findById(author.getId());
             verify(bookMapper, times(0)).toResponseList(author.getBooks());
+        }
+
+        @Test
+        @DisplayName("findAllNames() -> should return a list of AuthorNameDto")
+        void findAllNames_shouldReturnListOfAuthorNames() {
+            // Arrange
+            when(authorRepository.findAll()).thenReturn(List.of(author));
+            when(mapper.toNameList(List.of(author))).thenReturn(List.of(new AuthorNameDto(author.getId(), author.getName())));
+
+            // Act
+            List<AuthorNameDto> result = authorService.findAllNames();
+
+            // Assert
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            assertEquals(author.getId(), result.get(0).getId());
+            assertEquals(author.getName(), result.get(0).getName());
+
+            verify(authorRepository, times(1)).findAll();
+            verify(mapper, times(1)).toNameList(List.of(author));
         }
     }
 

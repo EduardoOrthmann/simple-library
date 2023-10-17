@@ -6,6 +6,7 @@ import com.example.simplelibrary.domains.author.dto.AuthorNameDto;
 import com.example.simplelibrary.domains.book.dto.BookMapper;
 import com.example.simplelibrary.domains.book.dto.BookRequestDto;
 import com.example.simplelibrary.domains.book.dto.BookResponseDto;
+import com.example.simplelibrary.domains.book.dto.GenreDto;
 import com.example.simplelibrary.domains.publisher.Publisher;
 import com.example.simplelibrary.domains.publisher.PublisherService;
 import com.example.simplelibrary.domains.publisher.dto.PublisherNameDto;
@@ -208,6 +209,19 @@ class BookServiceImplTest {
 
             verify(bookRepository, times(1)).findByTitleContainingIgnoreCase(book.getTitle());
             verify(mapper, times(1)).toResponseList(List.of(book));
+        }
+
+        @Test
+        @DisplayName("findAllGenres() -> should return list of Genre")
+        void findAllGenres_shouldReturnListOfGenre() {
+            // Act
+            List<GenreDto> result = bookService.findAllGenres();
+
+            // Assert
+            assertNotNull(result);
+            assertEquals(Genre.values().length, result.size());
+            assertEquals(Genre.values()[0].getGenreName(), result.get(0).getName());
+            assertEquals(Genre.values()[0], result.get(0).getGenre());
         }
     }
 
